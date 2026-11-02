@@ -13,7 +13,6 @@ pip install -r requirements.txt # requirements
 uvicorn main:app --reload # load the app
 ```
 
-Open http://127.0.0.1:8000
 
 ## Config (environment variables)
 
