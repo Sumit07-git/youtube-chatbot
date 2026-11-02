@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TubeBrief: summarize any YouTube video</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>▶️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;700&family=Literata:opsz,wght@7..72,400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <span class="logo" aria-hidden="true"></span>
+      <span class="brand">TubeBrief</span>
+    </header>
+
+    <section class="intro">
+      <h1>Paste a YouTube link. Get the short version.</h1>
+      <p class="lede">Works with any video that has captions. The summary is written by a model running on your own machine through Ollama, so nothing is sent to a third-party AI service.</p>
+    </section>
+
+    <form id="form" class="scrub" novalidate>
+      <div class="bar">
+        <label class="sr" for="url">YouTube link</label>
+        <input id="url" name="url" type="url" inputmode="url" autocomplete="off" spellcheck="false"
+               placeholder="https://www.youtube.com/watch?v=…" required>
+        <button id="go" type="submit">Summarize</button>
+      </div>
+      <fieldset class="length">
+        <legend>Summary length</legend>
+        <label><input type="radio" name="length" value="short"><span>Short</span></label>
+        <label><input type="radio" name="length" value="standard" checked><span>Standard</span></label>
+        <label><input type="radio" name="length" value="detailed"><span>Detailed</span></label>
+      </fieldset>
+    </form>
+
+    <p id="error" class="error" role="alert" hidden></p>
+
+    <section id="loading" class="loading" aria-live="polite" hidden>
+      <div class="track" aria-hidden="true"><span></span></div>
+      <p id="loading-text">Fetching the transcript…</p>
+    </section>
+
+    <article id="result" class="result" hidden>
+      <div class="video">
+        <img id="thumb" alt="" width="160" height="90">
+        <div class="video-info">
+          <h2 id="video-title"></h2>
+          <p id="video-meta" class="meta"></p>
+        </div>
+      </div>
+
+      <div id="summary" class="prose"></div>
+
+      <div class="actions">
+        <button id="copy" type="button" class="ghost">Copy summary</button>
+        <button id="reset" type="button" class="ghost">Summarize another video</button>
+      </div>
+
+      <section class="ask" aria-labelledby="ask-title">
+        <h2 id="ask-title">Ask about this video</h2>
+        <p class="meta">Answers come only from the transcript.</p>
+        <form id="ask-form" class="ask-bar" novalidate>
+          <label class="sr" for="question">Your question</label>
+          <input id="question" type="text" maxlength="500" autocomplete="off"
+                 placeholder="Does the speaker mention pricing?">
+          <button id="ask-go" type="submit">Ask</button>
+        </form>
+        <ol id="thread" class="thread"></ol>
+      </section>
+    </article>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
